@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MailCheck — Bulk Email Verifier</title>
+  <meta name="description" content="Verify email addresses in bulk via SMTP.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <header>
+    <div class="logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <span>MailCheck</span>
+    </div>
+    <p class="tagline">Bulk email verification via SMTP</p>
+  </header>
+  <main>
+    <section id="upload-section" class="card">
+      <h1>Verify Email Addresses</h1>
+      <p class="subtitle">Upload a spreadsheet, CSV, or paste emails directly.</p>
+      <div class="input-tabs">
+        <button class="tab active" data-tab="paste" id="tab-paste">Paste Emails</button>
+        <button class="tab" data-tab="upload" id="tab-upload">Upload File</button>
+      </div>
+      <div class="tab-content">
+        <div class="tab-pane active" id="pane-paste">
+          <textarea id="email-input" placeholder="Paste emails here — one per line, comma-separated, etc." rows="8"></textarea>
+        </div>
+        <div class="tab-pane" id="pane-upload">
+          <div class="dropzone" id="dropzone">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p>Drop your file here or <span class="browse-link">browse</span></p>
+            <p class="file-types">CSV, XLSX, XLS, or TXT</p>
+            <input type="file" id="file-input" accept=".csv,.xlsx,.xls,.txt" hidden>
+          </div>
+          <div class="file-preview" id="file-preview" hidden>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span id="file-name"></span>
+            <button id="file-remove" class="btn-icon" aria-label="Remove file">&times;</button>
+          </div>
+        </div>
+      </div>
+      <button id="verify-btn" class="btn-primary">Verify Emails</button>
+    </section>
+    <section id="loading-section" class="card" hidden>
+      <div class="loading-content">
+        <div class="spinner"></div>
+        <h2>Verifying emails...</h2>
+        <p class="loading-sub">Connecting to mail servers via SMTP.</p>
+      </div>
+    </section>
+    <section id="results-section" hidden>
+      <div class="results-header card">
+        <div class="results-title-row">
+          <h2>Results</h2>
+          <div class="results-actions">
+            <button id="export-csv" class="btn-secondary">Export CSV</button>
+            <button id="new-check" class="btn-secondary">New Check</button>
+          </div>
+        </div>
+        <div class="stats-grid" id="stats-grid"></div>
+        <div class="filter-bar">
+          <button class="filter active" data-filter="all" id="filter-all">All</button>
+          <button class="filter" data-filter="valid" id="filter-valid"><span class="dot dot-valid"></span> Valid</button>
+          <button class="filter" data-filter="invalid" id="filter-invalid"><span class="dot dot-invalid"></span> Invalid</button>
+          <button class="filter" data-filter="uncertain" id="filter-uncertain"><span class="dot dot-uncertain"></span> Uncertain</button>
+          <button class="filter" data-filter="error" id="filter-error"><span class="dot dot-error"></span> Error</button>
+        </div>
+      </div>
+      <div class="results-list" id="results-list"></div>
+    </section>
+  </main>
+  <footer><p>SMTP-level verification · Max 500 emails per batch</p></footer>
+  <script src="app.js"></script>
+</body>
+</html>
